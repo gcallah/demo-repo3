@@ -33,7 +33,7 @@ jobs:
       - name: Install Python packages.
         run: pip install -r requirements-dev.txt
 
-      - name: Run Python unittests
+      - name: Run Python tests.
         run: make all_tests
         
       # Deploy to Heroku
