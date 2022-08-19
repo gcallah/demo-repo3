@@ -14,6 +14,7 @@ on:
 
 env:
   DEMO_HOME: /home/runner/work/demo-repo3/demo-repo3/
+  PYTHONPATH: /home/runner/work/demo-repo3/demo-repo3/
     # MONGO_PASSWD: ${{secrets.MONGO_PASSWD}}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
