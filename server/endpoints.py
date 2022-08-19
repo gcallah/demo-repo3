@@ -5,7 +5,7 @@ The endpoint called `endpoints` will return all available endpoints.
 
 from flask import Flask
 from flask_restx import Resource, Api
-import db.db as db
+# import db.db as db
 
 app = Flask(__name__)
 api = Api(app)
@@ -37,15 +37,3 @@ class Endpoints(Resource):
         """
         endpoints = sorted(rule.rule for rule in api.app.url_map.iter_rules())
         return {"Available endpoints": endpoints}
-
-
-@api.route('/pets')
-class Pets(Resource):
-    """
-    This class supports fetching a list of all pets.
-    """
-    def get(self):
-        """
-        This method returns all pets.
-        """
-        return db.fetch_pets()

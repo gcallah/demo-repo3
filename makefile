@@ -1,7 +1,8 @@
 LINTER = flake8
-API_DIR = API
+API_DIR = server
 DB_DIR = db
 REQ_DIR = .
+PYTESTFLAGS = -vv --verbose --cov-config=.coveragerc --tb=short
 
 FORCE:
 
@@ -14,7 +15,7 @@ github: FORCE
 tests: lint unit
 
 unit: FORCE
-	cd $(API_DIR); nosetests --with-coverage --cover-package=$(API_DIR)
+	cd $(API_DIR); pytest $(PYTESTFLAGS)
 
 lint: FORCE
 	$(LINTER) $(API_DIR)/*.py
