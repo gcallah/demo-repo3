@@ -11,7 +11,8 @@ meet threats, find treasure, etc.
 
 ## Requirements
 
-- List all available characters
+- List all available character types
+- Get a description of a character type
 - List all active characters
 - Signup
 - Signin
