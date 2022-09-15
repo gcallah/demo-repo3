@@ -13,6 +13,8 @@ api = Api(app)
 LIST = 'list'
 HELLO = '/hello'
 MESSAGE = 'message'
+CHAR_TYPE_LIST = f'/character_types/{LIST}'
+CHAR_TYPE_LIST_NM = 'character_types_list'
 
 
 @api.route(HELLO)
@@ -29,7 +31,7 @@ class HelloWorld(Resource):
         return {MESSAGE: 'hello world'}
 
 
-@api.route(f'/character_types/{LIST}')
+@api.route(CHAR_TYPE_LIST)
 class CharacterTypeList(Resource):
     """
     This will get a list of character types.
@@ -38,7 +40,7 @@ class CharacterTypeList(Resource):
         """
         Returns a list of character types.
         """
-        return {'hello': 'world'}
+        return {CHAR_TYPE_LIST_NM: []}
 
 
 @api.route('/endpoints')
