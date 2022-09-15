@@ -16,6 +16,9 @@ MESSAGE = 'message'
 CHAR_TYPE_LIST = f'/character_types/{LIST}'
 CHAR_TYPE_LIST_NM = 'character_types_list'
 
+A_CHAR_TYPE = 'Wizard'
+ANOTHER_CHAR_TYPE = 'Warrior'
+
 
 @api.route(HELLO)
 class HelloWorld(Resource):
@@ -40,7 +43,7 @@ class CharacterTypeList(Resource):
         """
         Returns a list of character types.
         """
-        return {CHAR_TYPE_LIST_NM: []}
+        return {CHAR_TYPE_LIST_NM: [A_CHAR_TYPE, ANOTHER_CHAR_TYPE]}
 
 
 @api.route('/endpoints')
