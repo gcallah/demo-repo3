@@ -5,6 +5,8 @@ import server.endpoints as ep
 
 TEST_CLIENT = ep.app.test_client()
 
+TEST_CHAR_TYPE = 'werewolf'
+
 
 def test_hello():
     """
@@ -32,3 +34,11 @@ def test_get_character_type_list_not_empty():
     """
     resp_json = TEST_CLIENT.get(ep.CHAR_TYPE_LIST).get_json()
     assert len(resp_json[ep.CHAR_TYPE_LIST_NM]) > 0
+
+
+def test_get_character_type_details():
+    """
+    """
+    resp_json = TEST_CLIENT.get(f'{ep.CHAR_TYPE_DETAILS}/{TEST_CHAR_TYPE}').get_json()
+    assert TEST_CHAR_TYPE in resp_json
+    assert isinstance(resp_json[TEST_CHAR_TYPE], dict)
