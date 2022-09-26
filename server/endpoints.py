@@ -12,6 +12,8 @@ api = Api(app)
 
 LIST = 'list'
 DETAILS = 'details'
+MAIN_MENU = '/main_menu'
+MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
 CHAR_TYPE_LIST = f'/character_types/{LIST}'
@@ -34,6 +36,18 @@ class HelloWorld(Resource):
         It just answers with "hello world."
         """
         return {MESSAGE: 'hello world'}
+
+
+@api.route(MAIN_MENU)
+class MainMenu(Resource):
+    """
+    This will deliver our main menu.
+    """
+    def get(self):
+        """
+        Gets the main game menu.
+        """
+        return {MAIN_MENU_NM: {'the': 'menu'}}
 
 
 @api.route(CHAR_TYPE_LIST)
