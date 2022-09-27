@@ -5,7 +5,7 @@ The endpoint called `endpoints` will return all available endpoints.
 
 from flask import Flask
 from flask_restx import Resource, Api
-# import db.db as db
+import db.char_types as ctyp
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,9 +19,6 @@ MESSAGE = 'message'
 CHAR_TYPE_LIST = f'/character_types/{LIST}'
 CHAR_TYPE_LIST_NM = 'character_types_list'
 CHAR_TYPE_DETAILS = f'/character_types/{DETAILS}'
-
-A_CHAR_TYPE = 'Wizard'
-ANOTHER_CHAR_TYPE = 'Warrior'
 
 
 @api.route(HELLO)
@@ -59,7 +56,7 @@ class CharacterTypeList(Resource):
         """
         Returns a list of character types.
         """
-        return {CHAR_TYPE_LIST_NM: [A_CHAR_TYPE, ANOTHER_CHAR_TYPE]}
+        return {CHAR_TYPE_LIST_NM: ctyp.get_char_types()}
 
 
 @api.route(f'{CHAR_TYPE_DETAILS}/<character_type>')
