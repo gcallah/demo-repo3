@@ -2,9 +2,12 @@
 This is the file containing all of the endpoints for our flask app.
 The endpoint called `endpoints` will return all available endpoints.
 """
+from http import HTTPStatus
 
 from flask import Flask
 from flask_restx import Resource, Api
+import werkzeug.exceptions as wz
+
 import db.char_types as ctyp
 
 app = Flask(__name__)
@@ -59,16 +62,22 @@ class CharacterTypeList(Resource):
         return {CHAR_TYPE_LIST_NM: ctyp.get_char_types()}
 
 
-@api.route(f'{CHAR_TYPE_DETAILS}/<character_type>')
+@api.route(f'{CHAR_TYPE_DETAILS}/<char_type>')
 class CharacterTypeDetails(Resource):
     """
     This will get a list of character types.
     """
-    def get(self, character_type):
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, char_type):
         """
         Returns a list of character types.
         """
-        return {character_type: {}}
+        ct = ctyp.get_char_type_details(char_type)
+        if ct is not None:
+            return {char_type: ctyp.get_char_type_details(char_type)}
+        else:
+            raise wz.NotFound(f'{char_type} not found.')
 
 
 @api.route('/endpoints')

@@ -5,7 +5,7 @@ import server.endpoints as ep
 
 TEST_CLIENT = ep.app.test_client()
 
-TEST_CHAR_TYPE = 'werewolf'
+TEST_CHAR_TYPE = 'Warrior'
 
 
 def test_hello():

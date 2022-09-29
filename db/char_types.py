@@ -8,7 +8,7 @@ WARRIOR = 'Warrior'
 MAGE = 'Mage'
 
 CHAR_TYPES = {WIZARD: {'health': 7, 'magic': 10},
-              WARRIOR: {'health': 9},
+              WARRIOR: {'health': 9, 'strength': 9},
               MAGE: {'health': 6}, }
 
 
@@ -17,7 +17,7 @@ def get_char_types():
 
 
 def get_char_type_details(char_type):
-    return CHAR_TYPES[char_type]
+    return CHAR_TYPES.get(char_type, None)
 
 
 def main():
