@@ -4,8 +4,8 @@ The endpoint called `endpoints` will return all available endpoints.
 """
 from http import HTTPStatus
 
-from flask import Flask
-from flask_restx import Resource, Api
+from flask import Flask, request
+from flask_restx import Resource, Api, fields
 import werkzeug.exceptions as wz
 
 import db.char_types as ctyp
@@ -16,6 +16,7 @@ api = Api(app)
 
 LIST = 'list'
 DETAILS = 'details'
+ADD = 'add'
 MAIN_MENU = '/main_menu'
 MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
@@ -28,6 +29,7 @@ GAMES_NS = 'games'
 GAME_LIST = f'/{GAMES_NS}/{LIST}'
 GAME_LIST_NM = '{GAMES_NS}_list'
 GAME_DETAILS = f'/{GAMES_NS}/{DETAILS}'
+GAME_ADD = f'/{GAMES_NS}/{ADD}'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = '{USERS_NS}_list'
@@ -118,6 +120,25 @@ class GameDetails(Resource):
             return {game: gm.get_game_details(game)}
         else:
             raise wz.NotFound(f'{game} not found.')
+
+
+game_fields = api.model('NewGame', {
+    'Name': fields.String,
+    'Max players': fields.Integer,
+})
+
+
+@api.route(GAME_ADD)
+class AddGame(Resource):
+    """
+    Add a game.
+    """
+    @api.expect(game_fields)
+    def post(self):
+        """
+        Add a game.
+        """
+        return print(f'{request.json=}')
 
 
 @api.route('/endpoints')
