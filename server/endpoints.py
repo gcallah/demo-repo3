@@ -9,6 +9,7 @@ from flask_restx import Resource, Api
 import werkzeug.exceptions as wz
 
 import db.char_types as ctyp
+import db.games as gm
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,9 +20,18 @@ MAIN_MENU = '/main_menu'
 MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
-CHAR_TYPE_LIST = f'/character_types/{LIST}'
-CHAR_TYPE_LIST_NM = 'character_types_list'
-CHAR_TYPE_DETAILS = f'/character_types/{DETAILS}'
+CHAR_TYPES_NS = 'character_types'
+CHAR_TYPE_LIST = f'/{CHAR_TYPES_NS}/{LIST}'
+CHAR_TYPE_LIST_NM = '{CHAR_TYPES_NS}_list'
+CHAR_TYPE_DETAILS = f'/{CHAR_TYPES_NS}/{DETAILS}'
+GAMES_NS = 'games'
+GAME_LIST = f'/{GAMES_NS}/{LIST}'
+GAME_LIST_NM = '{GAMES_NS}_list'
+GAME_DETAILS = f'/{GAMES_NS}/{DETAILS}'
+USERS_NS = 'users'
+USER_LIST = f'/{USERS_NS}/{LIST}'
+USER_LIST_NM = '{USERS_NS}_list'
+USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 
 
 @api.route(HELLO)
@@ -65,19 +75,49 @@ class CharacterTypeList(Resource):
 @api.route(f'{CHAR_TYPE_DETAILS}/<char_type>')
 class CharacterTypeDetails(Resource):
     """
-    This will get a list of character types.
+    This will return details on a character type.
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, char_type):
         """
-        Returns a list of character types.
+        This will return details on a character type.
         """
         ct = ctyp.get_char_type_details(char_type)
         if ct is not None:
             return {char_type: ctyp.get_char_type_details(char_type)}
         else:
             raise wz.NotFound(f'{char_type} not found.')
+
+
+@api.route(GAME_LIST)
+class GameList(Resource):
+    """
+    This will get a list of currrent games.
+    """
+    def get(self):
+        """
+        Returns a list of current games.
+        """
+        return {GAME_LIST_NM: gm.get_games()}
+
+
+@api.route(f'{GAME_DETAILS}/<game>')
+class GameDetails(Resource):
+    """
+    This will get details on a game.
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, game):
+        """
+        Returns a list of character types.
+        """
+        ct = gm.get_game_details(game)
+        if ct is not None:
+            return {game: gm.get_game_details(game)}
+        else:
+            raise wz.NotFound(f'{game} not found.')
 
 
 @api.route('/endpoints')
