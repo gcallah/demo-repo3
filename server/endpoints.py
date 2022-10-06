@@ -123,8 +123,10 @@ class GameDetails(Resource):
 
 
 game_fields = api.model('NewGame', {
-    'Name': fields.String,
-    'Max players': fields.Integer,
+    gm.NAME: fields.String,
+    gm.NUM_PLAYERS: fields.Integer,
+    gm.LEVEL: fields.Integer,
+    gm.VIOLENCE: fields.Integer,
 })
 
 
@@ -138,7 +140,10 @@ class AddGame(Resource):
         """
         Add a game.
         """
-        return print(f'{request.json=}')
+        print(f'{request.json=}')
+        name = request.json[gm.NAME]
+        del request.json[gm.NAME]
+        gm.add_game(name, request.json)
 
 
 @api.route('/endpoints')

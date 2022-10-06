@@ -4,6 +4,7 @@ This module encapsulates details about games.
 """
 
 TEST_GAME_NAME = 'Test game'
+NAME = 'name'
 NUM_PLAYERS = 'num_players'
 LEVEL = 'level'
 VIOLENCE = 'violence'
