@@ -15,3 +15,6 @@ lint: FORCE
 # test a python file:
 %.py: FORCE
 	pytest -s tests/test_$*.py
+
+docs: FORCE
+	pydoc3 -w ./*py

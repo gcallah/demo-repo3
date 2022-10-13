@@ -1,4 +1,3 @@
-
 """
 This module encapsulates details about games.
 """
@@ -19,6 +18,9 @@ games = {TEST_GAME_NAME: {NUM_PLAYERS: 7, LEVEL: 10, VIOLENCE: 2},
 
 
 def game_exists(name):
+    """
+    Returns whether or not a game exists.
+    """
     return name in games
 
 

@@ -1,4 +1,3 @@
-
 """
 This module encapsulates details about character type.
 """
@@ -13,6 +12,9 @@ CHAR_TYPES = {WIZARD: {'health': 7, 'magic': 10},
 
 
 def get_char_types():
+    """
+    Returns a list of character types.
+    """
     return list(CHAR_TYPES.keys())
 
 
