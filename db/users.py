@@ -3,6 +3,7 @@ This module encapsulates details about users.
 """
 
 TEST_USER_NAME = 'Test user'
+NAME = 'name'
 EMAIL = 'email'
 FULL_NAME = 'full_name'
 
@@ -27,6 +28,10 @@ def get_users():
 
 def get_user_details(user):
     return users.get(user, None)
+
+
+def del_user(name):
+    del users[name]
 
 
 def add_user(name, details):

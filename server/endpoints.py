@@ -10,6 +10,7 @@ import werkzeug.exceptions as wz
 
 import db.char_types as ctyp
 import db.games as gm
+import db.users as usr
 
 app = Flask(__name__)
 api = Api(app)
@@ -32,7 +33,7 @@ GAME_DETAILS = f'/{GAMES_NS}/{DETAILS}'
 GAME_ADD = f'/{GAMES_NS}/{ADD}'
 USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
-USER_LIST_NM = '{USERS_NS}_list'
+USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
 
@@ -147,15 +148,26 @@ class AddGame(Resource):
         gm.add_game(name, request.json)
 
 
+@api.route(USER_LIST)
+class UserList(Resource):
+    """
+    This will get a list of currrent users.
+    """
+    def get(self):
+        """
+        Returns a list of current users.
+        """
+        return {USER_LIST_NM: usr.get_users()}
+
+
 user_fields = api.model('NewUser', {
-    gm.NAME: fields.String,
-    gm.NUM_PLAYERS: fields.Integer,
-    gm.LEVEL: fields.Integer,
-    gm.VIOLENCE: fields.Integer,
+    usr.NAME: fields.String,
+    usr.EMAIL: fields.String,
+    usr.FULL_NAME: fields.String,
 })
 
 
-@api.route(GAME_ADD)
+@api.route(USER_ADD)
 class AddUser(Resource):
     """
     Add a user.
@@ -166,9 +178,9 @@ class AddUser(Resource):
         Add a user.
         """
         print(f'{request.json=}')
-        name = request.json[gm.NAME]
-        del request.json[gm.NAME]
-        gm.add_user(name, request.json)
+        name = request.json[usr.NAME]
+        del request.json[usr.NAME]
+        usr.add_user(name, request.json)
 
 
 @api.route('/endpoints')
