@@ -34,6 +34,7 @@ USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = '{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
+USER_ADD = f'/{USERS_NS}/{ADD}'
 
 
 @api.route(HELLO)
@@ -144,6 +145,30 @@ class AddGame(Resource):
         name = request.json[gm.NAME]
         del request.json[gm.NAME]
         gm.add_game(name, request.json)
+
+
+user_fields = api.model('NewUser', {
+    gm.NAME: fields.String,
+    gm.NUM_PLAYERS: fields.Integer,
+    gm.LEVEL: fields.Integer,
+    gm.VIOLENCE: fields.Integer,
+})
+
+
+@api.route(GAME_ADD)
+class AddUser(Resource):
+    """
+    Add a user.
+    """
+    @api.expect(user_fields)
+    def post(self):
+        """
+        Add a user.
+        """
+        print(f'{request.json=}')
+        name = request.json[gm.NAME]
+        del request.json[gm.NAME]
+        gm.add_user(name, request.json)
 
 
 @api.route('/endpoints')
