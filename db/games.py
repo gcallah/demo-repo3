@@ -24,6 +24,10 @@ def game_exists(name):
     return name in games
 
 
+def get_games_dict():
+    return games
+
+
 def get_games():
     return list(games.keys())
 

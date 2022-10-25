@@ -5,7 +5,7 @@ The endpoint called `endpoints` will return all available endpoints.
 from http import HTTPStatus
 
 from flask import Flask, request
-from flask_restx import Resource, Api, fields
+from flask_restx import Resource, Api, fields, Namespace
 import werkzeug.exceptions as wz
 
 import db.char_types as ctyp
@@ -15,23 +15,31 @@ import db.users as usr
 app = Flask(__name__)
 api = Api(app)
 
+CHAR_TYPES_NS = 'character_types'
+GAMES_NS = 'games'
+USERS_NS = 'users'
+
+char_types = Namespace(CHAR_TYPES_NS, 'Character Types')
+api.add_namespace(char_types)
+games = Namespace(GAMES_NS, 'Games')
+api.add_namespace(games)
+
 LIST = 'list'
+DICT = 'dict'
 DETAILS = 'details'
 ADD = 'add'
 MAIN_MENU = '/main_menu'
 MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
-CHAR_TYPES_NS = 'character_types'
-CHAR_TYPE_LIST = f'/{CHAR_TYPES_NS}/{LIST}'
-CHAR_TYPE_LIST_NM = '{CHAR_TYPES_NS}_list'
-CHAR_TYPE_DETAILS = f'/{CHAR_TYPES_NS}/{DETAILS}'
-GAMES_NS = 'games'
-GAME_LIST = f'/{GAMES_NS}/{LIST}'
-GAME_LIST_NM = '{GAMES_NS}_list'
+CHAR_TYPE_LIST = f'/{LIST}'
+CHAR_TYPE_LIST_W_NS = f'{CHAR_TYPES_NS}/{LIST}'
+CHAR_TYPE_LIST_NM = f'{CHAR_TYPES_NS}_list'
+CHAR_TYPE_DETAILS = f'/{DETAILS}'
+CHAR_TYPE_DETAILS_W_NS = f'{CHAR_TYPES_NS}/{DETAILS}'
+GAME_DICT = f'/{DICT}'
 GAME_DETAILS = f'/{GAMES_NS}/{DETAILS}'
 GAME_ADD = f'/{GAMES_NS}/{ADD}'
-USERS_NS = 'users'
 USER_LIST = f'/{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
@@ -61,10 +69,18 @@ class MainMenu(Resource):
         """
         Gets the main game menu.
         """
-        return {MAIN_MENU_NM: {'the': 'menu'}}
+        return {'Title': MAIN_MENU_NM,
+                'Default': 0,
+                'Choices': {
+                    '1': {'text': 'List Character Types'},
+                    '2': {'url': '/games/dict', 'method':
+                          'get', 'text': 'List Active Games'},
+                    '3': {'text': 'List Users'},
+                    'X': {'text': 'Exit'},
+                }}
 
 
-@api.route(CHAR_TYPE_LIST)
+@char_types.route(CHAR_TYPE_LIST)
 class CharacterTypeList(Resource):
     """
     This will get a list of character types.
@@ -76,7 +92,7 @@ class CharacterTypeList(Resource):
         return {CHAR_TYPE_LIST_NM: ctyp.get_char_types()}
 
 
-@api.route(f'{CHAR_TYPE_DETAILS}/<char_type>')
+@char_types.route(f'{CHAR_TYPE_DETAILS}/<char_type>')
 class CharacterTypeDetails(Resource):
     """
     This will return details on a character type.
@@ -94,7 +110,7 @@ class CharacterTypeDetails(Resource):
             raise wz.NotFound(f'{char_type} not found.')
 
 
-@api.route(GAME_LIST)
+@games.route(GAME_DICT)
 class GameList(Resource):
     """
     This will get a list of currrent games.
@@ -103,7 +119,9 @@ class GameList(Resource):
         """
         Returns a list of current games.
         """
-        return {GAME_LIST_NM: gm.get_games()}
+        return {'Data': gm.get_games_dict(),
+                'Type': 'Data',
+                'Title': 'Active Games'}
 
 
 @api.route(f'{GAME_DETAILS}/<game>')
