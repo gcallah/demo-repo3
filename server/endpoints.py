@@ -23,6 +23,8 @@ char_types = Namespace(CHAR_TYPES_NS, 'Character Types')
 api.add_namespace(char_types)
 games = Namespace(GAMES_NS, 'Games')
 api.add_namespace(games)
+users = Namespace(USERS_NS, 'Users')
+api.add_namespace(users)
 
 LIST = 'list'
 DICT = 'dict'
@@ -38,9 +40,11 @@ CHAR_TYPE_LIST_NM = f'{CHAR_TYPES_NS}_list'
 CHAR_TYPE_DETAILS = f'/{DETAILS}'
 CHAR_TYPE_DETAILS_W_NS = f'{CHAR_TYPES_NS}/{DETAILS}'
 GAME_DICT = f'/{DICT}'
-GAME_DETAILS = f'/{GAMES_NS}/{DETAILS}'
+GAME_DETAILS = f'/{DETAILS}'
+GAME_DETAILS_W_NS = f'/{GAMES_NS}/{DETAILS}'
 GAME_ADD = f'/{GAMES_NS}/{ADD}'
-USER_LIST = f'/{USERS_NS}/{LIST}'
+USER_LIST = f'/{LIST}'
+USER_LIST_W_NS = f'{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
 USER_DETAILS = f'/{USERS_NS}/{DETAILS}'
 USER_ADD = f'/{USERS_NS}/{ADD}'
@@ -124,7 +128,7 @@ class GameList(Resource):
                 'Title': 'Active Games'}
 
 
-@api.route(f'{GAME_DETAILS}/<game>')
+@games.route(f'{GAME_DETAILS}/<game>')
 class GameDetails(Resource):
     """
     This will get details on a game.
@@ -166,7 +170,7 @@ class AddGame(Resource):
         gm.add_game(name, request.json)
 
 
-@api.route(USER_LIST)
+@users.route(USER_LIST)
 class UserList(Resource):
     """
     This will get a list of currrent users.
