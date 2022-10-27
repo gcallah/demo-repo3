@@ -34,6 +34,9 @@ MAIN_MENU = '/main_menu'
 MAIN_MENU_NM = 'Main Menu'
 HELLO = '/hello'
 MESSAGE = 'message'
+CHAR_TYPE_DICT = f'/{DICT}'
+CHAR_TYPE_DICT_W_NS = f'{CHAR_TYPES_NS}/{DICT}'
+CHAR_TYPE_DICT_NM = f'{CHAR_TYPES_NS}_dict'
 CHAR_TYPE_LIST = f'/{LIST}'
 CHAR_TYPE_LIST_W_NS = f'{CHAR_TYPES_NS}/{LIST}'
 CHAR_TYPE_LIST_NM = f'{CHAR_TYPES_NS}_list'
@@ -43,6 +46,9 @@ GAME_DICT = f'/{DICT}'
 GAME_DETAILS = f'/{DETAILS}'
 GAME_DETAILS_W_NS = f'/{GAMES_NS}/{DETAILS}'
 GAME_ADD = f'/{GAMES_NS}/{ADD}'
+USER_DICT = f'/{DICT}'
+USER_DICT_W_NS = f'{USERS_NS}/{DICT}'
+USER_DICT_NM = f'{USERS_NS}_dict'
 USER_LIST = f'/{LIST}'
 USER_LIST_W_NS = f'{USERS_NS}/{LIST}'
 USER_LIST_NM = f'{USERS_NS}_list'
@@ -77,9 +83,10 @@ class MainMenu(Resource):
                 'Default': 0,
                 'Choices': {
                     '1': {'text': 'List Character Types'},
-                    '2': {'url': '/games/dict', 'method':
-                          'get', 'text': 'List Active Games'},
-                    '3': {'text': 'List Users'},
+                    '2': {'url': '/games/dict',
+                          'method': 'get', 'text': 'List Active Games'},
+                    '3': {'url': f'/{USER_DICT_W_NS}',
+                          'method': 'get', 'text': 'List Users'},
                     'X': {'text': 'Exit'},
                 }}
 
@@ -94,6 +101,18 @@ class CharacterTypeList(Resource):
         Returns a list of character types.
         """
         return {CHAR_TYPE_LIST_NM: ctyp.get_char_types()}
+
+
+@char_types.route(CHAR_TYPE_DICT)
+class CharacterTypeDict(Resource):
+    """
+    This will get a list of character types.
+    """
+    def get(self):
+        """
+        Returns a list of character types.
+        """
+        return {CHAR_TYPE_DICT_NM: ctyp.get_char_types()}
 
 
 @char_types.route(f'{CHAR_TYPE_DETAILS}/<char_type>')
@@ -168,6 +187,20 @@ class AddGame(Resource):
         name = request.json[gm.NAME]
         del request.json[gm.NAME]
         gm.add_game(name, request.json)
+
+
+@users.route(USER_DICT)
+class UserDict(Resource):
+    """
+    This will get a list of currrent users.
+    """
+    def get(self):
+        """
+        Returns a list of current users.
+        """
+        return {'Data': usr.get_users_dict(),
+                'Type': 'Data',
+                'Title': 'Active Users'}
 
 
 @users.route(USER_LIST)
