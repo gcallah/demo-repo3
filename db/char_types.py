@@ -6,20 +6,35 @@ WIZARD = 'Wizard'
 WARRIOR = 'Warrior'
 MAGE = 'Mage'
 
-CHAR_TYPES = {WIZARD: {'health': 7, 'magic': 10},
+char_types = {WIZARD: {'health': 7, 'magic': 10},
               WARRIOR: {'health': 9, 'strength': 9},
               MAGE: {'health': 6}, }
+
+
+def add_char_type(type_name, traits):
+    if char_type_exists(type_name):
+        raise ValueError(f'Char type exists: {type_name=}')
+    char_types[type_name] = traits
+
+
+def del_char_type(type_name):
+    if char_type_exists(type_name):
+        del char_types[type_name]
+
+
+def char_type_exists(type_name):
+    return type_name in char_types
 
 
 def get_char_types():
     """
     Returns a list of character types.
     """
-    return list(CHAR_TYPES.keys())
+    return list(char_types.keys())
 
 
 def get_char_type_details(char_type):
-    return CHAR_TYPES.get(char_type, None)
+    return char_types.get(char_type, None)
 
 
 def main():
