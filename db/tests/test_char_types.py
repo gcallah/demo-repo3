@@ -9,6 +9,7 @@ DEF_TRAITS = {'health': 7, 'magic': 10}
 @pytest.fixture(scope='function')
 def new_char_type():
     ctyp.add_char_type(NEW_CHAR_TYPE, DEF_TRAITS)
+    # yield is where the test is run!
     yield
     ctyp.del_char_type(NEW_CHAR_TYPE)
 
@@ -29,6 +30,9 @@ def test_add_char_type(new_char_type):
 
 
 def test_add_char_type_dup(new_char_type):
+    """
+    See if we catch adding a duplicate character type.
+    """
     with pytest.raises(ValueError):
         ctyp.add_char_type(NEW_CHAR_TYPE, DEF_TRAITS)
 

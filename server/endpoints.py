@@ -43,8 +43,9 @@ CHAR_TYPE_LIST_NM = f'{CHAR_TYPES_NS}_list'
 CHAR_TYPE_DETAILS = f'/{DETAILS}'
 CHAR_TYPE_DETAILS_W_NS = f'{CHAR_TYPES_NS}/{DETAILS}'
 GAME_DICT = f'/{DICT}'
+GAME_DICT_W_NS = f'{GAMES_NS}/{DICT}'
 GAME_DETAILS = f'/{DETAILS}'
-GAME_DETAILS_W_NS = f'/{GAMES_NS}/{DETAILS}'
+GAME_DETAILS_W_NS = f'{GAMES_NS}/{DETAILS}'
 GAME_ADD = f'/{GAMES_NS}/{ADD}'
 USER_DICT = f'/{DICT}'
 USER_DICT_W_NS = f'{USERS_NS}/{DICT}'
@@ -80,10 +81,11 @@ class MainMenu(Resource):
         Gets the main game menu.
         """
         return {'Title': MAIN_MENU_NM,
-                'Default': 0,
+                'Default': 2,
                 'Choices': {
-                    '1': {'text': 'List Character Types'},
-                    '2': {'url': '/games/dict',
+                    '1': {'url': f'/{CHAR_TYPE_DICT_W_NS}', 'method': 'get',
+                          'text': 'List Character Types'},
+                    '2': {'url': f'/{GAME_DICT_W_NS}',
                           'method': 'get', 'text': 'List Active Games'},
                     '3': {'url': f'/{USER_DICT_W_NS}',
                           'method': 'get', 'text': 'List Users'},
@@ -112,7 +114,9 @@ class CharacterTypeDict(Resource):
         """
         Returns a list of character types.
         """
-        return {CHAR_TYPE_DICT_NM: ctyp.get_char_types()}
+        return {'Data': ctyp.get_char_type_dict(),
+                'Type': 'Data',
+                'Title': 'Character Types'}
 
 
 @char_types.route(f'{CHAR_TYPE_DETAILS}/<char_type>')

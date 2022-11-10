@@ -26,6 +26,13 @@ def char_type_exists(type_name):
     return type_name in char_types
 
 
+def get_char_type_dict():
+    """
+    Returns a list of character types.
+    """
+    return char_types
+
+
 def get_char_types():
     """
     Returns a list of character types.

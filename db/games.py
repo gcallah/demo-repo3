@@ -1,6 +1,7 @@
 """
 This module encapsulates details about games.
 """
+import db.db_connect as dbc
 
 TEST_GAME_NAME = 'Test game'
 NAME = 'name'
@@ -16,6 +17,9 @@ games = {TEST_GAME_NAME: {NUM_PLAYERS: 7, LEVEL: 10, VIOLENCE: 2},
          'game2': {NUM_PLAYERS: 9, LEVEL: 9, VIOLENCE: 2},
          'game3': {NUM_PLAYERS: 6, LEVEL: 1, VIOLENCE: 2}, }
 
+GAME_KEY = 'name'
+GAMES_COLLECT = 'games'
+
 
 def game_exists(name):
     """
@@ -25,11 +29,14 @@ def game_exists(name):
 
 
 def get_games_dict():
-    return games
+    dbc.connect_db()
+    return dbc.fetch_all_as_dict(GAME_KEY, GAMES_COLLECT)
 
 
 def get_games():
-    return list(games.keys())
+    dbc.connect_db()
+    return dbc.fetch_all(GAMES_COLLECT)
+    # return list(games.keys())
 
 
 def get_game_details(game):
@@ -48,7 +55,11 @@ def add_game(name, details):
 
 
 def main():
+    print('Getting games as a list:')
     games = get_games()
+    print(f'{games=}')
+    print('Getting games as a dict:')
+    games = get_games_dict()
     print(f'{games=}')
     print(f'{get_game_details(TEST_GAME_NAME)=}')
 
