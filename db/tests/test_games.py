@@ -21,6 +21,8 @@ def temp_game():
         gm.add_game(gm.TEST_GAME_NAME, create_game_details())
         yield
         # gm.del_game(gm.TEST_GAME_NAME)
+    else:
+        return True
 
 
 def test_get_games():
