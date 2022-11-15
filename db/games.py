@@ -36,7 +36,6 @@ def get_games_dict():
 def get_games():
     dbc.connect_db()
     return dbc.fetch_all(GAMES_COLLECT)
-    # return list(games.keys())
 
 
 def get_game_details(game):

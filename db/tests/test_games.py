@@ -15,6 +15,13 @@ def test_get_games():
         assert len(gms) > 1
 
 
+def test_get_games_dict():
+    if not RUNNING_ON_CICD_SERVER:
+        gms = gm.get_games_dict()
+        assert isinstance(gms, dict)
+        assert len(gms) > 1
+
+
 def test_get_game_details():
     gm_dets = gm.get_game_details(gm.TEST_GAME_NAME)
     assert isinstance(gm_dets, dict)
