@@ -20,6 +20,7 @@ def temp_game():
     if not RUNNING_ON_CICD_SERVER:
         gm.add_game(gm.TEST_GAME_NAME, create_game_details())
         yield
+        return True
         # gm.del_game(gm.TEST_GAME_NAME)
     else:
         return True
