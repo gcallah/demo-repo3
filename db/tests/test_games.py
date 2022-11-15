@@ -59,5 +59,6 @@ def test_add_missing_field():
 
 
 def test_add_game():
-    gm.add_game(gm.TEST_GAME_NAME, create_game_details())
+    if not RUNNING_ON_CICD_SERVER:
+        gm.add_game(gm.TEST_GAME_NAME, create_game_details())
     # assert gm.game_exists(gm.TEST_GAME_NAME)
