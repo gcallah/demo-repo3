@@ -15,7 +15,7 @@ on:
 env:
   DEMO_HOME: /home/runner/work/demo-repo3/demo-repo3/
   PYTHONPATH: /home/runner/work/demo-repo3/demo-repo3/
-    # MONGO_PASSWD: ${{secrets.MONGO_PASSWD}}
+  # MONGO_PASSWD: ${{secrets.MONGO_PASSWD}}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Python packages.
-        run: pip install -r requirements-dev.txt
+        run: make dev_env
 
       - name: Run Python tests.
         run: make all_tests
