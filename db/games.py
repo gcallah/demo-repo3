@@ -39,10 +39,12 @@ def get_games():
 
 
 def get_game_details(game):
-    return games.get(game, None)
+    dbc.connect_db()
+    return dbc.fetch_one(GAMES_COLLECT, {GAME_KEY: game})
 
 
 def add_game(name, details):
+    doc = details
     if not isinstance(name, str):
         raise TypeError(f'Wrong type for name: {type(name)=}')
     if not isinstance(details, dict):
@@ -50,7 +52,9 @@ def add_game(name, details):
     for field in REQUIRED_FLDS:
         if field not in details:
             raise ValueError(f'Required {field=} missing from details.')
-    games[name] = details
+    dbc.connect_db()
+    doc[GAME_KEY] = name
+    return dbc.insert_one(GAMES_COLLECT, doc)
 
 
 def main():

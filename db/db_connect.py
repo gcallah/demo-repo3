@@ -26,6 +26,21 @@ def connect_db():
             client = pm.MongoClient()
 
 
+def insert_one(collection, doc, db=GAME_DB):
+    """
+    Insert a single doc into collection.
+    """
+    client[db][collection].insert_one(doc)
+
+
+def fetch_one(collection, filt, db=GAME_DB):
+    """
+    Find with a filter and return on the first doc found.
+    """
+    for doc in client[db][collection].find(filt):
+        return doc
+
+
 def fetch_all(collection, db=GAME_DB):
     ret = []
     for doc in client[db][collection].find():
