@@ -23,6 +23,7 @@ def temp_game():
         return True
         # gm.del_game(gm.TEST_GAME_NAME)
     else:
+        yield
         return True
 
 
