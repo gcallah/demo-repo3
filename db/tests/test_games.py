@@ -47,6 +47,14 @@ def test_get_game_details(temp_game):
         assert isinstance(gm_dtls, dict)
 
 
+def test_game_exists(temp_game):
+    assert gm.game_exists(gm.TEST_GAME_NAME)
+
+
+def test_game_not_exists():
+    assert not gm.game_exists('Surely this is not a game name!')
+
+
 def test_add_wrong_name_type():
     with pytest.raises(TypeError):
         gm.add_game(7, {})

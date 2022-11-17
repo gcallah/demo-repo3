@@ -21,11 +21,16 @@ GAME_KEY = 'name'
 GAMES_COLLECT = 'games'
 
 
+def get_game_details(game):
+    dbc.connect_db()
+    return dbc.fetch_one(GAMES_COLLECT, {GAME_KEY: game})
+
+
 def game_exists(name):
     """
     Returns whether or not a game exists.
     """
-    return name in games
+    return get_game_details(name) is not None
 
 
 def get_games_dict():
@@ -36,11 +41,6 @@ def get_games_dict():
 def get_games():
     dbc.connect_db()
     return dbc.fetch_all(GAMES_COLLECT)
-
-
-def get_game_details(game):
-    dbc.connect_db()
-    return dbc.fetch_one(GAMES_COLLECT, {GAME_KEY: game})
 
 
 def add_game(name, details):
