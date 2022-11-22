@@ -48,26 +48,31 @@ def test_get_game_details(temp_game):
 
 
 def test_game_exists(temp_game):
-    assert gm.game_exists(gm.TEST_GAME_NAME)
+    if not RUNNING_ON_CICD_SERVER:
+        assert gm.game_exists(gm.TEST_GAME_NAME)
 
 
 def test_game_not_exists():
-    assert not gm.game_exists('Surely this is not a game name!')
+    if not RUNNING_ON_CICD_SERVER:
+        assert not gm.game_exists('Surely this is not a game name!')
 
 
 def test_add_wrong_name_type():
-    with pytest.raises(TypeError):
-        gm.add_game(7, {})
+    if not RUNNING_ON_CICD_SERVER:
+        with pytest.raises(TypeError):
+            gm.add_game(7, {})
 
 
 def test_add_wrong_details_type():
-    with pytest.raises(TypeError):
-        gm.add_game('a new game', [])
+    if not RUNNING_ON_CICD_SERVER:
+        with pytest.raises(TypeError):
+            gm.add_game('a new game', [])
 
 
 def test_add_missing_field():
-    with pytest.raises(ValueError):
-        gm.add_game('a new game', {'foo': 'bar'})
+    if not RUNNING_ON_CICD_SERVER:
+        with pytest.raises(ValueError):
+            gm.add_game('a new game', {'foo': 'bar'})
 
 
 def test_add_game():
