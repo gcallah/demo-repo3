@@ -57,6 +57,10 @@ def add_game(name, details):
     return dbc.insert_one(GAMES_COLLECT, doc)
 
 
+def del_game(name):
+    return dbc.del_one(GAMES_COLLECT, {GAME_KEY: name})
+
+
 def main():
     print('Getting games as a list:')
     games = get_games()

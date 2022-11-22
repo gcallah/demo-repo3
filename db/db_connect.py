@@ -41,6 +41,13 @@ def fetch_one(collection, filt, db=GAME_DB):
         return doc
 
 
+def del_one(collection, filt, db=GAME_DB):
+    """
+    Find with a filter and return on the first doc found.
+    """
+    client[db][collection].delete_one(filt)
+
+
 def fetch_all(collection, db=GAME_DB):
     ret = []
     for doc in client[db][collection].find():
