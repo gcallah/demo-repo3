@@ -2,7 +2,7 @@ import pymongo as pm
 
 import pytest
 
-import db_connect as dbc
+import db.db_connect as dbc
 
 TEST_DB = dbc.GAME_DB
 TEST_COLLECT = 'test_collect'
