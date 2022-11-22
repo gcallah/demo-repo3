@@ -1,5 +1,6 @@
 # This is a workflow to test and deploy our demo app.
 
+
 name: Demo CI/CD
 
 # Controls when the workflow will run
@@ -29,6 +30,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Install MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
 
       - name: Install Python packages.
         run: make dev_env
