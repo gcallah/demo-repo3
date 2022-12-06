@@ -47,4 +47,5 @@ def test_char_type_not_exists():
 
 @pytest.mark.skip("Can't run this test untill the delete function is written.")
 def test_del_char_type():
-    assert False
+    pass
+    # assert False
