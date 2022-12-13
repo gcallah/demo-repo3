@@ -9,7 +9,7 @@ echo "Pulling code from master"
 git pull origin master
 
 echo "Installing packages"
-pip install --upgrade -r requirements.txt
+pip install -r requirements.txt
 
 echo "Going to reboot the webserver"
 pa_reload_webapp.py SWEDemo.pythonanywhere.com
