@@ -1,5 +1,6 @@
-
+from http import HTTPStatus
 import pytest
+import werkzeug.exceptions as wz
 
 import db.users as usr
 
@@ -8,6 +9,7 @@ import server.endpoints as ep
 TEST_CLIENT = ep.app.test_client()
 
 TEST_CHAR_TYPE = 'Warrior'
+TEST_BAD_CHAR_TYPE = 'Wimp'
 
 
 def test_hello():
@@ -72,3 +74,10 @@ def test_get_character_type_details():
     resp_json = TEST_CLIENT.get(f'{ep.CHAR_TYPE_DETAILS_W_NS}/{TEST_CHAR_TYPE}').get_json()
     assert TEST_CHAR_TYPE in resp_json
     assert isinstance(resp_json[TEST_CHAR_TYPE], dict)
+
+
+def test_get_missing_character_type_details():
+    """
+    """
+    resp = TEST_CLIENT.get(f'{ep.CHAR_TYPE_DETAILS_W_NS}/{TEST_BAD_CHAR_TYPE}')
+    assert resp.status_code == HTTPStatus.NOT_FOUND
