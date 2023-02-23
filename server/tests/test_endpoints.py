@@ -3,6 +3,7 @@ import pytest
 import werkzeug.exceptions as wz
 
 import db.users as usr
+import db.games as gms
 
 import server.endpoints as ep
 
@@ -26,6 +27,27 @@ SAMPLE_USER = {
     usr.EMAIL: 'x@y.com',
     usr.FULL_NAME: 'Sample User',
 }
+
+
+SAMPLE_GAME_NM = "TestGame"
+SAMPLE_GAME_DETAILS = {
+  "name": "TestGame",
+  "num_players": 7,
+  "level": 10,
+  "violence": 2
+}
+
+
+@pytest.fixture(scope='function')
+def a_game():
+    ret = gms.add_game(SAMPLE_GAME_NM, SAMPLE_GAME_DETAILS)
+    yield ret
+    gms.del_game(SAMPLE_GAME_NM)
+
+
+def test_get_game_details(a_game):
+    resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/{SAMPLE_GAME_NM}')
+    assert resp.status_code == HTTPStatus.OK
 
 
 def test_add_user():

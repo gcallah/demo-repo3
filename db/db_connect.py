@@ -9,6 +9,8 @@ GAME_DB = 'gamedb'
 
 client = None
 
+MONGO_ID = '_id'
+
 
 def connect_db():
     """
@@ -54,6 +56,9 @@ def fetch_one(collection, filt, db=GAME_DB):
     Find with a filter and return on the first doc found.
     """
     for doc in client[db][collection].find(filt):
+        if MONGO_ID in doc:
+            # Convert mongo ID to a string so it works as JSON
+            doc[MONGO_ID] = str(doc[MONGO_ID])
         return doc
 
 
@@ -74,6 +79,6 @@ def fetch_all(collection, db=GAME_DB):
 def fetch_all_as_dict(key, collection, db=GAME_DB):
     ret = {}
     for doc in client[db][collection].find():
-        del doc['_id']
+        del doc[MONGO_ID]
         ret[doc[key]] = doc
     return ret
