@@ -4,7 +4,7 @@ An example flask rest API server, for SE Fall 2022.
 
 To build production, type `make prod`.
 
-We are working on automatic deploy to PythonAnywhere at present!
+Automatic deploy to PythonAnywhere is done by GitHub Actions.
 
 To create the env for a new developer, run `make dev_env`.
 
