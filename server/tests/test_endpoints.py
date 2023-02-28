@@ -3,7 +3,7 @@ import pytest
 import werkzeug.exceptions as wz
 
 import db.users as usr
-import db.games as gms
+import db.games as gm
 
 import server.endpoints as ep
 
@@ -31,23 +31,31 @@ SAMPLE_USER = {
 
 SAMPLE_GAME_NM = "TestGame"
 SAMPLE_GAME_DETAILS = {
-  "name": "TestGame",
+  gm.NAME: "TestGame",
   "num_players": 7,
-  "level": 10,
+  gm.LEVEL: 10,
   "violence": 2
 }
 
 
 @pytest.fixture(scope='function')
 def a_game():
-    ret = gms.add_game(SAMPLE_GAME_NM, SAMPLE_GAME_DETAILS)
+    ret = gm.add_game(SAMPLE_GAME_NM, SAMPLE_GAME_DETAILS)
     yield ret
-    gms.del_game(SAMPLE_GAME_NM)
+    gm.del_game(SAMPLE_GAME_NM)
 
 
 def test_get_game_details(a_game):
     resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/{SAMPLE_GAME_NM}')
     assert resp.status_code == HTTPStatus.OK
+    assert isinstance(resp.json, dict)
+    # every game must have a name:
+    assert gm.NAME in resp.json[ep.GAME_DETAILS_STR]
+
+
+def test_get_game_details():
+    resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/NotAGameName')
+    assert resp.status_code == HTTPStatus.NOT_FOUND
 
 
 def test_add_user():

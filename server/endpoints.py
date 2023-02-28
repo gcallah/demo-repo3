@@ -138,9 +138,9 @@ class CharacterTypeDetails(Resource):
 
 
 @games.route(GAME_DICT)
-class GameList(Resource):
+class GameDict(Resource):
     """
-    This will get a list of currrent games.
+    This will get a dictionary of currrent games.
     """
     def get(self):
         """
@@ -149,6 +149,9 @@ class GameList(Resource):
         return {'Data': gm.get_games_dict(),
                 'Type': 'Data',
                 'Title': 'Active Games'}
+
+
+GAME_DETAILS_STR = 'Game Details'
 
 
 @games.route(f'{GAME_DETAILS}/<game>')
@@ -160,11 +163,11 @@ class GameDetails(Resource):
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, game):
         """
-        Returns a list of character types.
+        Returns details about a game.
         """
         ct = gm.get_game_details(game)
         if ct is not None:
-            return {game: gm.get_game_details(game)}
+            return {GAME_DETAILS_STR: gm.get_game_details(game)}
         else:
             raise wz.NotFound(f'{game} not found.')
 
