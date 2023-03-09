@@ -8,6 +8,9 @@ echo "Rebuilding"
 echo "Pulling code from master"
 git pull origin master
 
+echo "Installing PA helper scripts for reboot."
+pip3.10 install --user pythonanywhere
+
 echo "Installing packages"
 pip install -r requirements.txt
 
