@@ -1,4 +1,6 @@
 from http import HTTPStatus
+
+from unittest.mock import patch
 import pytest
 import werkzeug.exceptions as wz
 
@@ -45,7 +47,8 @@ def a_game():
     gm.del_game(SAMPLE_GAME_NM)
 
 
-def test_get_game_details(a_game):
+@patch('db.games.get_game_details', return_value=SAMPLE_GAME_DETAILS, auto_spec=True)
+def test_get_game_details(mock_get_game_details):
     resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/{SAMPLE_GAME_NM}')
     assert resp.status_code == HTTPStatus.OK
     assert isinstance(resp.json, dict)
@@ -53,7 +56,7 @@ def test_get_game_details(a_game):
     assert gm.NAME in resp.json[ep.GAME_DETAILS_STR]
 
 
-def test_get_game_details():
+def test_get_game_details_no_such_game():
     resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/NotAGameName')
     assert resp.status_code == HTTPStatus.NOT_FOUND
 

@@ -154,22 +154,21 @@ class GameDict(Resource):
 GAME_DETAILS_STR = 'Game Details'
 
 
-@games.route(f'{GAME_DETAILS}/<game>')
+@games.route(f'{GAME_DETAILS}/<name>')
 class GameDetails(Resource):
     """
     This will get details on a game.
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, game):
+    def get(self, name):
         """
         Returns details about a game.
         """
-        ct = gm.get_game_details(game)
-        if ct is not None:
-            return {GAME_DETAILS_STR: gm.get_game_details(game)}
-        else:
-            raise wz.NotFound(f'{game} not found.')
+        game_det = gm.get_game_details(name)
+        if game_det is None:
+            raise wz.NotFound(f'{name} not found.')
+        return {GAME_DETAILS_STR: game_det}
 
 
 game_fields = api.model('NewGame', {
