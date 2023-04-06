@@ -56,7 +56,8 @@ def test_get_game_details(mock_get_game_details):
     assert gm.NAME in resp.json[ep.GAME_DETAILS_STR]
 
 
-def test_get_game_details_no_such_game():
+@patch('db.games.get_game_details', return_value=None, auto_spec=True)
+def test_get_game_details_no_such_game(mock_get_game_details):
     resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/NotAGameName')
     assert resp.status_code == HTTPStatus.NOT_FOUND
 
