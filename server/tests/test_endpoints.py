@@ -47,7 +47,7 @@ def a_game():
     gm.del_game(SAMPLE_GAME_NM)
 
 
-@patch('db.games.get_game_details', return_value=SAMPLE_GAME_DETAILS, auto_spec=True)
+@patch('db.games.get_game_details', return_value=SAMPLE_GAME_DETAILS)
 def test_get_game_details(mock_get_game_details):
     resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/{SAMPLE_GAME_NM}')
     assert resp.status_code == HTTPStatus.OK
@@ -56,7 +56,7 @@ def test_get_game_details(mock_get_game_details):
     assert gm.NAME in resp.json[ep.GAME_DETAILS_STR]
 
 
-@patch('db.games.get_game_details', return_value=None, auto_spec=True)
+@patch('db.games.get_game_details', return_value=None)
 def test_get_game_details_no_such_game(mock_get_game_details):
     resp = TEST_CLIENT.get(f'{ep.GAME_DETAILS_W_NS}/NotAGameName')
     assert resp.status_code == HTTPStatus.NOT_FOUND
