@@ -33,11 +33,11 @@ def connect_db():
                                     + '@cluster0.eqxbbqd.mongodb.net/'
                                     + '?retryWrites=true&w=majority')
             # PA recommends these settings:
-            # + 'connectTimeoutMS=30000&'
-            # + 'socketTimeoutMS=None
+            # + '&connectTimeoutMS=30000'
+            # + '&socketTimeoutMS=None
             # + '&connect=false'
-            # + 'maxPoolsize=1')
-            # but they don't seem necessary
+            # + '&maxPoolsize=1')
+            # but they aren't always necessary
         else:
             print("Connecting to Mongo locally.")
             client = pm.MongoClient()
