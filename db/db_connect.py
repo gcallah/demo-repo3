@@ -36,7 +36,8 @@ def connect_db():
             # + '&connectTimeoutMS=30000'
             # + '&socketTimeoutMS=None
             # + '&connect=false'
-            # + '&maxPoolsize=1')
+            # + '&maxPoolsize=1'
+            # + '&socketKeepAlive=True')
             # but they aren't always necessary
         else:
             print("Connecting to Mongo locally.")
